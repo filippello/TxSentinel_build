@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Caddy reverse proxy
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend/dist:/var/www
+      - caddy_data:/data
+      - caddy_config:/config
+
+  # FastAPI RPC Server
+  rpc-server:
+    build:
+      context: ./rpc-server
+    container_name: rpc-server
+    restart: unless-stopped
+    expose:
+      - "8089"
+
+  # FastAPI Frontend
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   container_name: frontend
+  #   restart: unless-stopped
+  #   expose:
+  #     - "5173"
+
+volumes:
+  caddy_data:
+  caddy_config:

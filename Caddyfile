@@ -1,0 +1,10 @@
+# Redirecting to the frontend app
+txsentinel.filicodelab.xyz {
+    file_server
+    root * /var/www
+}
+
+# Redirecting to the rpc-server app
+securerpc.filicodelab.xyz {
+    reverse_proxy rpc-server:8089
+}
